@@ -1,7 +1,6 @@
 plugins {
     id("creative.java-conventions")
     `maven-publish`
-    signing
 }
 
 val repositoryName: String by project
@@ -11,15 +10,7 @@ val releaseRepository: String by project
 publishing {
     repositories {
         maven {
-            val snapshot = project.version.toString().endsWith("-SNAPSHOT")
-
-            name = repositoryName
-            url = if (snapshot) {
-                uri(snapshotRepository)
-            } else {
-                uri(releaseRepository)
-            }
-            credentials(PasswordCredentials::class)
+            mavenLocal()
         }
     }
     publications {
@@ -51,8 +42,4 @@ publishing {
             }
         }
     }
-}
-
-signing {
-    sign(publishing.publications["maven"])
 }
